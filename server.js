@@ -1,6 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose= require('mongoose');
-const uri = "mongodb+srv://tetaangelbless014_db_user:8VnDjW3PJQG3SAM1@cluster0.nttagx9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("Connection successful!"))
+  .catch((err) => console.error("Connection failed", err));
 const app = express();
 
 const MySchema= new mongoose.Schema({
@@ -46,17 +49,16 @@ const MySchema= new mongoose.Schema({
         unique:false
     }
 });
-const User =mongoose.model("User",MySchema);
-mongoose.connect(uri)
-.then(()=>console.log("Connection successfull!"))
-.catch(()=>console.error("Connection failed", err));
+const user =mongoose.model("User",MySchema);
+
+
 
 
 
 app.use(express.json());
 app.post('/signup', (req,res)=>{
     const name = req.body.name;
-    const pnumber =  req.body.pnumber;
+    const pNumber =  req.body.pnumber;
     const email = req.body.email;
     const password =req.body.password;
     const acres = req.body.acres;
